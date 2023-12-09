@@ -35,7 +35,7 @@ export const Login = () => {
         // todo: add login logic
     }
     return (
-        <div className="flex flex-col gap-5 p-2 border rounded-md">
+        <div className="flex flex-col gap-5 p-2 border rounded-md w-full sm:w-[400px]">
             <div className="space-y-1 text-center">
                 <p className="text-2xl">Log in to your account</p>
                 <p className="text-slate-600">
