@@ -79,7 +79,7 @@ export const Register = () => {
     }
 
     return (
-        <div className="flex flex-col gap-5 p-5 border rounded-md w-full sm:w-[400px]">
+        <div className="flex flex-col gap-5 p-5 border rounded-md w-full sm:w-[400px] bg-secondary">
             <div className="space-y-1 text-center">
                 <p className="text-2xl">Create an account</p>
                 <p className="text-slate-600">
@@ -104,6 +104,7 @@ export const Register = () => {
                                         autoCorrect="off"
                                         disabled={isLoading}
                                         {...field}
+                                        className="bg-primary text-secondary"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -124,6 +125,7 @@ export const Register = () => {
                                         autoCorrect="off"
                                         disabled={isLoading}
                                         {...field}
+                                        className="bg-primary text-secondary"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -145,11 +147,12 @@ export const Register = () => {
                                             autoComplete="password"
                                             disabled={isLoading}
                                             {...field}
+                                            className="bg-primary text-secondary"
                                         />
                                         <Button
                                             variant="outline"
                                             type="button"
-                                            className="w-10 h-10 p-3"
+                                            className="w-10 h-10 p-3 bg-primary text-secondary"
                                             onClick={() => {
                                                 setIsVisible(!isVisible);
                                             }}
@@ -174,6 +177,7 @@ export const Register = () => {
                                         autoComplete="password"
                                         disabled={isLoading}
                                         {...field}
+                                        className="bg-primary text-secondary"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -185,7 +189,7 @@ export const Register = () => {
                             {isLoading && (
                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                             )}
-                            <span>Login</span>
+                            <span>Register</span>
                         </Button>
                     </DialogFooter>
                 </form>

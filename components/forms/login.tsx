@@ -55,9 +55,9 @@ export const Login = () => {
     }
 
     return (
-        <div className="flex flex-col gap-5 p-2 border rounded-md w-full sm:w-[400px]">
+        <div className="flex flex-col gap-5 p-6  w-full sm:w-[400px]  bg-secondary">
             <div className="space-y-1 text-center">
-                <p className="text-2xl">Log in to your account</p>
+                <p className="text-2xl text-primary">Log in to your account</p>
                 <p className="text-slate-600">
                     Enter your credentials to continue
                 </p>
@@ -72,7 +72,7 @@ export const Login = () => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel className="text-primary">Email</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="email"
@@ -81,6 +81,7 @@ export const Login = () => {
                                         autoCorrect="off"
                                         disabled={isLoading}
                                         {...field}
+                                        className="bg-primary text-secondary"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -92,21 +93,23 @@ export const Login = () => {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel className="text-primary">Password</FormLabel>
                                 <FormControl>
                                     <div className="flex w-full items-center space-x-2">
                                         <Input
+
                                             type={
                                                 isVisible ? "text" : "password"
                                             }
                                             autoComplete="password"
                                             disabled={isLoading}
                                             {...field}
+                                            className="bg-primary text-secondary"
                                         />
                                         <Button
                                             variant="outline"
                                             type="button"
-                                            className="w-10 h-10 p-3"
+                                            className="w-10 h-10 p-3 bg-primary text-secondary"
                                             onClick={() => {
                                                 setIsVisible(!isVisible);
                                             }}
