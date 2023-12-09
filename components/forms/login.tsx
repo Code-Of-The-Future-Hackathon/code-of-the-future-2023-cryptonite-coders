@@ -33,7 +33,7 @@ export const Login = () => {
 
     async function onSubmit(data: LoginUser) {
         setIsLoading(true);
-        const response = await signIn("credentials", {
+        await signIn("credentials", {
             email: loginForm.getValues("email"),
             password: loginForm.getValues("password"),
             redirect: false,
@@ -45,12 +45,12 @@ export const Login = () => {
                 });
             } else {
                 toast({
+                    variant: "destructive",
                     title: "Error",
                     description: "Error while authenticating",
                 });
             }
         });
-        console.log(response);
         setIsLoading(false);
     }
 

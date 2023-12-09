@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { signIn } from "next-auth/react";
 
 export const Register = () => {
     const registerForm = useForm<RegisterUser>({
@@ -36,7 +37,7 @@ export const Register = () => {
 
     async function onSubmit(data: LoginUser) {
         setIsLoading(true);
-        await fetch("/api/auth/register", {
+        const response = await fetch("/api/auth/register", {
             method: "POST",
             body: JSON.stringify({
                 name: registerForm.getValues("name"),
@@ -46,12 +47,34 @@ export const Register = () => {
         }).then((response) => {
             response.json().then((data: { message: string }) => {
                 toast({
-                    variant: "destructive",
+                    variant: response.ok ? "default" : "destructive",
                     title: response.ok ? "Success" : "Error",
                     description: data.message,
                 });
             });
+            return response;
         });
+
+        if (!response.ok) return;
+
+        await signIn("credentials", {
+            email: registerForm.getValues("email"),
+            password: registerForm.getValues("password"),
+            redirect: false,
+        }).then((response) => {
+            if (response && response.ok) {
+                toast({
+                    title: "Success",
+                    description: "You've logged in successfully",
+                });
+            } else {
+                toast({
+                    title: "Error",
+                    description: "Error while authenticating",
+                });
+            }
+        });
+
         setIsLoading(false);
     }
 
