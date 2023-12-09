@@ -1,15 +1,16 @@
 import React from "react";
+import { CarouselBlock } from "../carousel";
 import { cn } from "@/lib/utils";
-import { Carousel } from "../carousel";
+
 interface Props {
     direction: "left" | "right";
 }
 
-export const OrgPictures = ({ direction }: Props) => {
+export const OrgHeader = ({ direction }: Props) => {
     return (
         <div
             className={cn(
-                "flex justify-around items-center w-full border rounded-xl p-3",
+                "flex justify-around items-center w-full border rounded-xl p-3 ",
                 direction === "left" ? "flex-row" : "flex-row-reverse",
             )}
         >
@@ -22,8 +23,9 @@ export const OrgPictures = ({ direction }: Props) => {
                 </p>
             </div>
             <div className="w-1/2">
-                <Carousel />
+            <CarouselBlock />
             </div>
+           
         </div>
     );
 };

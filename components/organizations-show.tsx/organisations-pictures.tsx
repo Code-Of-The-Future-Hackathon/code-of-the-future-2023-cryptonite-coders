@@ -1,12 +1,11 @@
 import React from "react";
-import { Carousel } from "../carousel";
 import { cn } from "@/lib/utils";
-
+import { CarouselBlock } from "@/components/carousel";
 interface Props {
     direction: "left" | "right";
 }
 
-export const OrgHeader = ({ direction }: Props) => {
+export const OrgPictures = ({ direction }: Props) => {
     return (
         <div
             className={cn(
@@ -23,9 +22,8 @@ export const OrgHeader = ({ direction }: Props) => {
                 </p>
             </div>
             <div className="w-1/2">
-            <Carousel />
+                <CarouselBlock />
             </div>
-           
         </div>
     );
 };
