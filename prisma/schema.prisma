@@ -55,13 +55,13 @@ model Image {
 }
 
 model ImagesOnOrganisationPosts {
-  imageId        String
-  image          Image            @relation(fields: [imageId], references: [id])
-  organisation   OrganisationPost @relation(fields: [organisationId], references: [id])
-  organisationId String
-  addedAt        DateTime         @default(now())
+  imageId            String
+  image              Image            @relation(fields: [imageId], references: [id])
+  organisationPost   OrganisationPost @relation(fields: [organisationPostId], references: [id])
+  organisationPostId String
+  addedAt            DateTime         @default(now())
 
-  @@id([imageId, organisationId])
+  @@id([imageId, organisationPostId])
 }
 
 model Course {
