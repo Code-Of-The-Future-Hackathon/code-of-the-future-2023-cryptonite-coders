@@ -5,10 +5,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/ui/icons";
-import {
-    Eye,
-    EyeOff,
-} from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { LoginUser, loginUserSchema } from "@/lib/validations/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -20,6 +17,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { DialogFooter } from "@/components/ui/dialog";
+import { signIn } from "next-auth/react";
 
 export const Login = () => {
     const loginForm = useForm<LoginUser>({
@@ -32,8 +30,13 @@ export const Login = () => {
 
     async function onSubmit(data: LoginUser) {
         console.log(data);
-        // todo: add login logic
+        await signIn("credentials", {
+            email: loginForm.getValues("email"),
+            password: loginForm.getValues("password"),
+            redirect: false,
+        });
     }
+
     return (
         <div className="flex flex-col gap-5 p-2 border rounded-md w-full sm:w-[400px]">
             <div className="space-y-1 text-center">

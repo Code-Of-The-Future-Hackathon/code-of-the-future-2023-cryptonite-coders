@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/db";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(db as any),
@@ -12,15 +13,26 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "login",
             credentials: {
-                username: { label: "username", type: "text" },
+                email: { label: "username", type: "text" },
                 password: { label: "password", type: "password" },
             },
             authorize: async (credentials, req) => {
-                return {
-                    id: "1",
-                    name: "test",
-                    email: "test@example.com",
-                };
+                if (!credentials) return null;
+
+                const { email, password } = credentials;
+
+                const user = await db.user.findFirst({ where: { email } });
+
+                if (!user || !user.id) return null;
+
+                const passwordsMatch = await bcrypt.compare(
+                    password,
+                    user.password,
+                );
+
+                if (!passwordsMatch) return null;
+
+                return user;
             },
         }),
     ],
