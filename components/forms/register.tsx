@@ -8,7 +8,6 @@ import { Icons } from "@/components/ui/icons";
 import { Eye, EyeOff } from "lucide-react";
 import {
     LoginUser,
-    loginUserSchema,
     RegisterUser,
     registerUserSchema,
 } from "@/lib/validations/user";
@@ -33,9 +32,18 @@ export const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmit(data: LoginUser) {
-        console.log(data);
-        // todo: add register logic
+        setIsLoading(true);
+        await fetch("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify({
+                name: registerForm.getValues("name"),
+                email: registerForm.getValues("email"),
+                password: registerForm.getValues("password"),
+            }),
+        });
+        setIsLoading(false);
     }
+
     return (
         <div className="flex flex-col gap-5 p-5 border rounded-md w-full sm:w-[400px]">
             <div className="space-y-1 text-center">
