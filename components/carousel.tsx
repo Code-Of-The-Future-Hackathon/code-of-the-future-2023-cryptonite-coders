@@ -18,7 +18,7 @@ export function CarouselBlock() {
 
   return (
     <Carousel className="max-w-xl space-y-4 py-4">
-      <CarouselViewport >
+      <CarouselViewport className="p-0">
         {TEST_IMGS.map((img) => (
           <CarouselItem key={img} className="h-fit">
             <CarouselContent>
@@ -33,7 +33,7 @@ export function CarouselBlock() {
           <div className="space-x-2">
           {TEST_IMGS.map((_, index) => (
             <CarouselTrigger key={index} index={index}>
-              <span className="sr-only">{`e ${index + 1}`}</span>
+              <span className="sr-only">{`${index + 1}`}</span>
             </CarouselTrigger>
           ))}
         </div>
