@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { DialogFooter } from "@/components/ui/dialog";
 import { signIn } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Login = () => {
     const loginForm = useForm<LoginUser>({
@@ -28,13 +29,28 @@ export const Login = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const { toast } = useToast();
+
     async function onSubmit(data: LoginUser) {
         setIsLoading(true);
-        await signIn("credentials", {
+        const response = await signIn("credentials", {
             email: loginForm.getValues("email"),
             password: loginForm.getValues("password"),
             redirect: false,
+        }).then((response) => {
+            if (response && response.ok) {
+                toast({
+                    title: "Success",
+                    description: "You've logged in successfully",
+                });
+            } else {
+                toast({
+                    title: "Error",
+                    description: "Error while authenticating",
+                });
+            }
         });
+        console.log(response);
         setIsLoading(false);
     }
 

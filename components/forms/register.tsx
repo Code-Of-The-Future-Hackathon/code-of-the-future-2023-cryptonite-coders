@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { DialogFooter } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Register = () => {
     const registerForm = useForm<RegisterUser>({
@@ -31,6 +32,8 @@ export const Register = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const { toast } = useToast();
+
     async function onSubmit(data: LoginUser) {
         setIsLoading(true);
         await fetch("/api/auth/register", {
@@ -40,6 +43,14 @@ export const Register = () => {
                 email: registerForm.getValues("email"),
                 password: registerForm.getValues("password"),
             }),
+        }).then((response) => {
+            response.json().then((data: { message: string }) => {
+                toast({
+                    variant: "destructive",
+                    title: response.ok ? "Success" : "Error",
+                    description: data.message,
+                });
+            });
         });
         setIsLoading(false);
     }
