@@ -29,12 +29,13 @@ export const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     async function onSubmit(data: LoginUser) {
-        console.log(data);
+        setIsLoading(true);
         await signIn("credentials", {
             email: loginForm.getValues("email"),
             password: loginForm.getValues("password"),
             redirect: false,
         });
+        setIsLoading(false);
     }
 
     return (
