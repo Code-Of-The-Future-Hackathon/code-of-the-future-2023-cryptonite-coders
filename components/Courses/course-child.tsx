@@ -2,7 +2,7 @@ import React from "react";
 
 export const CourseChild = () => {
     return (
-        <div className="flex justify-center items-center flex-col min-h-screen px-24">
+        <div className="flex justify-center items-center flex-col min-h-screen px-4 sm:px-24 gap-4">
             <video controls preload="metadata" className="w-full">
                 <source
                     src="http://www.example.com/waterfall-video.mp4"
