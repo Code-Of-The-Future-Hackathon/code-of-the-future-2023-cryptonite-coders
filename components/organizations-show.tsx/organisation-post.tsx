@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import { CarouselBlock } from "../carousel";
+import CarouselBlock from "@/components/carousel";
 import { cn } from "@/lib/utils";
 
-interface Props {
+interface OrganisationHeaderProps {
     direction: "left" | "right";
+    title: string;
+    images: string[];
 }
 
-export const OrgHeader = ({ direction }: Props) => {
+export default function OrganisationPost({
+    direction,
+    title,
+    images,
+}: OrganisationHeaderProps) {
     return (
         <div
             className={cn(
@@ -17,16 +22,11 @@ export const OrgHeader = ({ direction }: Props) => {
             )}
         >
             <div className="w-full text-center sm:w-1/3">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Porro autem laudantium assumenda aperiam odio possimus
-                    libero sunt beatae aut quia eligendi impedit, sint saepe non
-                    iste rerum dolor, inventore iusto.
-                </p>
+                <p>{title}</p>
             </div>
             <div className="w-full sm:w-1/2">
-                <CarouselBlock />
+                <CarouselBlock images={images} />
             </div>
         </div>
     );
-};
+}
