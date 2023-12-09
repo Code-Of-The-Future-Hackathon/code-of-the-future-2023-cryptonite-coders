@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  ORGANISATION
+  CREATOR
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  organisationPosts OrganisationPost[]
+  images            Image[]
+  courses           Course[]
+
+  @@map(name: "users")
+}
+
+model OrganisationPost {
+  id       String @id @default(uuid())
+  title    String
+  authorId String
+
+  images ImagesOnOrganisationPosts[]
+  author User                        @relation(fields: [authorId], references: [id])
+
+  @@map(name: "organisation_posts")
+}
+
+model Image {
+  id      String @id @default(uuid())
+  path    String
+  ownerId String
+
+  organisationPosts ImagesOnOrganisationPosts[]
+  courses           Course[]
+  owner             User                        @relation(fields: [ownerId], references: [id])
+
+  @@map(name: "images")
+}
+
+model ImagesOnOrganisationPosts {
+  imageId        String
+  image          Image            @relation(fields: [imageId], references: [id])
+  organisation   OrganisationPost @relation(fields: [organisationId], references: [id])
+  organisationId String
+  addedAt        DateTime         @default(now())
+
+  @@id([imageId, organisationId])
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  authorId    String
+  imageId     String
+  parentId    String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  author   User     @relation(fields: [authorId], references: [id])
+  image    Image    @relation(fields: [imageId], references: [id])
+  parent   Course?  @relation("CourseCourses", fields: [parentId], references: [id])
+  children Course[] @relation("CourseCourses")
+
+  @@map(name: "courses")
+}
