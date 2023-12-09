@@ -2,8 +2,10 @@ import React from "react";
 import { Login } from "@/components/forms/login";
 import Image from "next/image";
 import Link from 'next/link'
+import RevealAnimation from "@/components/animations/reveal-animation";
 export default function LoginPage() {
     return (
+        <RevealAnimation direction="right">
         <main className="flex flex-col items-center justify-between sm:flex-row h-screen">
             <div className="w-full flex items-center justify-center bg-secondary min-h-screen sm:w-1/3 p-2">
                 <Login />
@@ -16,5 +18,6 @@ export default function LoginPage() {
                 </div>
             </div>
         </main>
+        </RevealAnimation>
     );
 }

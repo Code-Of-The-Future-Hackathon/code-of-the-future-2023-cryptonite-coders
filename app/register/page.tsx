@@ -2,9 +2,11 @@ import React from "react";
 import Image from "next/image";
 import { Register } from "@/components/forms/register";
 import Link from "next/link";
+import RevealAnimation from "@/components/animations/reveal-animation";
 
 export default function LoginPage() {
     return (
+        <RevealAnimation direction="left">
         <main className="flex flex-row-reverse items-center justify-between h-screen">
             <div className="w-full flex items-center justify-center bg-secondary min-h-screen sm:w-1/3 p-2">
                 <Register />
@@ -21,5 +23,6 @@ export default function LoginPage() {
                 </div>
             </div>
         </main>
+        </RevealAnimation>
     );
 }
