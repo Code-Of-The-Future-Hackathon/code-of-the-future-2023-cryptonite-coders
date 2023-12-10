@@ -17,10 +17,10 @@ interface CarouselBlockProps {
 
 export default function CarouselBlock({ images }: CarouselBlockProps) {
     return (
-        <Carousel className="max-w-xl space-y-4 py-4">
+        <Carousel className="w-full space-y-4 py-4 bg-secondary">
             <CarouselViewport className="p-0">
                 {images.map((img) => (
-                    <CarouselItem key={img} className="h-fit">
+                    <CarouselItem key={img} className="">
                         <CarouselContent>
                             <img src={img} className="w-auto max-h-[500px]" />
                         </CarouselContent>
@@ -28,7 +28,7 @@ export default function CarouselBlock({ images }: CarouselBlockProps) {
                 ))}
             </CarouselViewport>
             <CarouselControls>
-                <div className="flex justify-between flex-row w-full">
+                <div className="flex justify-between flex-row w-full bg-secondary rounded">
                     <CarouselPrev />
                     <div className="space-x-2">
                         {images.map((_, index) => (
