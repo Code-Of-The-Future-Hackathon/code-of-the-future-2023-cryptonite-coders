@@ -22,13 +22,13 @@ export default function CarouselBlock({ images }: CarouselBlockProps) {
                 {images.map((img) => (
                     <CarouselItem key={img} className="">
                         <CarouselContent>
-                            <img src={img} className="w-auto max-h-[500px]" />
+                            <img src={img} className="w-auto max-h-[650px]" />
                         </CarouselContent>
                     </CarouselItem>
                 ))}
             </CarouselViewport>
             <CarouselControls>
-                <div className="flex justify-between flex-row w-full bg-secondary rounded">
+                <div className="flex justify-between flex-row w-full rounded">
                     <CarouselPrev />
                     <div className="space-x-2">
                         {images.map((_, index) => (
