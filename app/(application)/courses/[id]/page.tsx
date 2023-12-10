@@ -1,4 +1,4 @@
-import { CourseChild } from "@/components/Courses/course-child";
+import { CourseChild } from "@/components/courses/course-child";
 import React from "react";
 import { Slider } from "@/components/ui/slider";
 
