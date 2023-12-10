@@ -19,6 +19,7 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { signIn } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export const Login = () => {
     const loginForm = useForm<LoginUser>({
@@ -30,12 +31,13 @@ export const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { toast } = useToast();
+    const { push } = useRouter();
 
     async function onSubmit(data: LoginUser) {
         setIsLoading(true);
         await signIn("credentials", {
-            email: loginForm.getValues("email"),
-            password: loginForm.getValues("password"),
+            email: data.email,
+            password: data.password,
             redirect: false,
         }).then((response) => {
             if (response && response.ok) {
@@ -43,6 +45,7 @@ export const Login = () => {
                     title: "Success",
                     description: "You've logged in successfully",
                 });
+                push("/organisations");
             } else {
                 toast({
                     variant: "destructive",
@@ -72,7 +75,9 @@ export const Login = () => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-primary">Email</FormLabel>
+                                <FormLabel className="text-primary">
+                                    Email
+                                </FormLabel>
                                 <FormControl>
                                     <Input
                                         type="email"
@@ -93,11 +98,12 @@ export const Login = () => {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-primary">Password</FormLabel>
+                                <FormLabel className="text-primary">
+                                    Password
+                                </FormLabel>
                                 <FormControl>
                                     <div className="flex w-full items-center space-x-2">
                                         <Input
-
                                             type={
                                                 isVisible ? "text" : "password"
                                             }
@@ -123,7 +129,11 @@ export const Login = () => {
                         )}
                     />
                     <DialogFooter>
-                        <Button className="w-full" type="submit">
+                        <Button
+                            className="w-full"
+                            type="submit"
+                            disabled={isLoading}
+                        >
                             {isLoading && (
                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                             )}
