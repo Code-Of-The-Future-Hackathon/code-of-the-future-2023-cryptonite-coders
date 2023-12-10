@@ -18,8 +18,9 @@ import {
     OrganisationPostCreate,
     organisationPostCreateSchema,
 } from "@/lib/validations/organisation-post";
+import { toast } from "@/components/ui/use-toast";
 
-export default function NewPostForm() {
+export default function NewPost() {
     const newPostForm = useForm<OrganisationPostCreate>({
         resolver: zodResolver(organisationPostCreateSchema),
         defaultValues: {
@@ -33,6 +34,18 @@ export default function NewPostForm() {
         name: "images",
         control: newPostForm.control,
     });
+
+    const appendField = () => {
+        if(fields.length < 5) append({ value: "" });
+        else {
+            toast({
+                title: "Limit reached",
+                description: "You've reached the limit for the number of images",
+                variant: "destructive"
+            })
+        }
+
+    }
 
     const onSubmit = async () => {
         await fetch("/organisation_posts", {
@@ -55,12 +68,12 @@ export default function NewPostForm() {
                     name="title"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Title</FormLabel>
+                            <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input placeholder="Add title" {...field} />
+                                <Input placeholder="Add description" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Write a title to your new post
+                                Write a description to your new post
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -98,7 +111,7 @@ export default function NewPostForm() {
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        onClick={() => append({ value: "" })}
+                        onClick={() => appendField()}
                     >
                         Add image URL
                     </Button>
