@@ -19,6 +19,7 @@ import {
     organisationPostCreateSchema,
 } from "@/lib/validations/organisation-post";
 import { toast } from "@/components/ui/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NewPost() {
     const newPostForm = useForm<OrganisationPostCreate>({
@@ -30,7 +31,7 @@ export default function NewPost() {
         mode: "onChange",
     });
 
-    const { fields, append } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         name: "images",
         control: newPostForm.control,
     });
@@ -48,12 +49,23 @@ export default function NewPost() {
     }
 
     const onSubmit = async () => {
-        await fetch("/organisation_posts", {
+
+        if( fields.length <= 1 && fields.length >= 5 ) {
+            toast({
+                title: "Image links",
+                description: "The number images must be between 1 and 5",
+                variant: "destructive"
+            })
+            return;
+        }
+
+        await fetch("/api/organisation_posts", {
             method: "POST",
             body: JSON.stringify({
                 title: newPostForm.getValues("title"),
                 images: newPostForm.getValues("images"),
             }),
+            credentials: "include"
         });
     };
 
@@ -70,7 +82,7 @@ export default function NewPost() {
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input placeholder="Add description" {...field} />
+                                <Textarea placeholder="Add description" {...field} />
                             </FormControl>
                             <FormDescription>
                                 Write a description to your new post
@@ -114,6 +126,15 @@ export default function NewPost() {
                         onClick={() => appendField()}
                     >
                         Add image URL
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-2 ml-2"
+                        onClick={() => remove(fields.length - 1)}
+                    >
+                        Remove last link
                     </Button>
                 </div>
                 <Button type="submit">Create post</Button>
