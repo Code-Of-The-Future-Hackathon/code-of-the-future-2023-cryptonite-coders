@@ -2,8 +2,10 @@ import React from "react";
 import { db } from "@/lib/db";
 import OrganisationParent from "@/components/organisation/organisation-parent";
 import { Typography } from "@/components/ui/typography";
+import { getCurrentUser } from "@/lib/session";
 
 export default async function OrganisationsPage() {
+    const user = await getCurrentUser();
     const organisations = await db.user.findMany({
         where: {
             role: "ORGANISATION",
@@ -29,6 +31,7 @@ export default async function OrganisationsPage() {
                             organisation.image ||
                             "https://api-private.atlassian.com/users/be0f5f0009c0c0551a411dd9bc1fdc85/avatar"
                         }
+                        isOwner={user?.name === organisation.name}
                     />
                 ))}
             </div>

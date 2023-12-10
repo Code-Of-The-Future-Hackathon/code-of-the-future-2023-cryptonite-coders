@@ -6,12 +6,14 @@ interface OrganisationParentProps {
     id: string;
     name: string;
     image: string;
+    isOwner: boolean;
 }
 
 export default function OrganisationParent({
     id,
     name,
     image,
+    isOwner,
 }: OrganisationParentProps) {
     return (
         <div className="flex justify-between flex-col p-3 border rounded-xl w-[300px] gap-3">
@@ -25,12 +27,25 @@ export default function OrganisationParent({
             <div>
                 <p className="text-2xl flex-1 text-center">{name}</p>
             </div>
-            <Link
-                className={cn(buttonVariants({ variant: "default" }))}
-                href={`/organisations/${id}`}
-            >
-                Click for more...
-            </Link>
+            <div className="w-full flex gap-x-2">
+                <Link
+                    className={cn(
+                        buttonVariants({ variant: "default" }),
+                        "w-full",
+                    )}
+                    href={`/organisations/${id}`}
+                >
+                    Click for more...
+                </Link>
+                {isOwner && (
+                    <Link
+                        className={cn(buttonVariants({ variant: "secondary" }))}
+                        href={`/organisations/add-post`}
+                    >
+                        Add
+                    </Link>
+                )}
+            </div>
         </div>
     );
 }
