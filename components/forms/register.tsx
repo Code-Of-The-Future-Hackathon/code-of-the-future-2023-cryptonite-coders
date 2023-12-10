@@ -23,6 +23,7 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const Register = () => {
     const registerForm = useForm<RegisterUser>({
@@ -34,15 +35,16 @@ export const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { toast } = useToast();
+    const { push } = useRouter();
 
-    async function onSubmit(data: LoginUser) {
+    async function onSubmit(data: RegisterUser) {
         setIsLoading(true);
         const response = await fetch("/api/auth/register", {
             method: "POST",
             body: JSON.stringify({
-                name: registerForm.getValues("name"),
-                email: registerForm.getValues("email"),
-                password: registerForm.getValues("password"),
+                name: data.name,
+                email: data.email,
+                password: data.password,
             }),
         }).then((response) => {
             response.json().then((data: { message: string }) => {
@@ -55,11 +57,14 @@ export const Register = () => {
             return response;
         });
 
-        if (!response.ok) return;
+        if (!response.ok) {
+            setIsLoading(false);
+            return;
+        }
 
         await signIn("credentials", {
-            email: registerForm.getValues("email"),
-            password: registerForm.getValues("password"),
+            email: data.email,
+            password: data.password,
             redirect: false,
         }).then((response) => {
             if (response && response.ok) {
@@ -67,6 +72,7 @@ export const Register = () => {
                     title: "Success",
                     description: "You've logged in successfully",
                 });
+                push("/organisations");
             } else {
                 toast({
                     title: "Error",
@@ -185,7 +191,11 @@ export const Register = () => {
                         )}
                     />
                     <DialogFooter>
-                        <Button className="w-full" type="submit">
+                        <Button
+                            className="w-full"
+                            type="submit"
+                            disabled={isLoading}
+                        >
                             {isLoading && (
                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                             )}
