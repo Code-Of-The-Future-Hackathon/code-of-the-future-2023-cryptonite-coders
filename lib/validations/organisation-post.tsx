@@ -3,7 +3,7 @@ import { imageCreateSchema } from "@/lib/validations/image";
 
 export const organisationPostCreateSchema = z.object({
     title: z.string(),
-    images: z.array(z.string().uuid()),
+    images: z.object({ value: z.string().url() }).array(),
 });
 
 export type OrganisationPostCreate = z.infer<
